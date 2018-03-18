@@ -1,11 +1,9 @@
 package com.vanhack.skipthedishes.orderservice.controller;
 
-import java.security.NoSuchAlgorithmException;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vanhack.skipthedishes.orderservice.entity.Customer;
@@ -22,7 +20,7 @@ public class CustomerController {
 		this.customerService = customerService;
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
+	@PostMapping
 	public String create(@RequestBody Customer customer) {
 		String response = null;
 		try {
@@ -33,18 +31,6 @@ public class CustomerController {
 		return response;
 	}
 
-	@RequestMapping(value = "/auth", method = RequestMethod.POST)
-	public String auth(@RequestBody Customer customer) {
-		if (customer.getEmail().trim().isEmpty() && customer.getEmail().trim().isEmpty()) {
-			throw new RuntimeException("Email and/or password must not be null");
-		}
-		try {
-			return customerService.login(customer);
-		} catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException("Unable to process, try again later");
-		} catch (RuntimeException e) {
-			throw new RuntimeException(e.getMessage());
-		}
-	}
+	//TODO the method auth was removed until spring security is implemented. Last thing to do.
 
 }

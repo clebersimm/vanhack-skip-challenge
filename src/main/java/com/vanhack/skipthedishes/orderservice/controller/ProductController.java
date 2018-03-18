@@ -7,9 +7,10 @@ import java.util.concurrent.ExecutionException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vanhack.skipthedishes.orderservice.entity.Product;
@@ -32,12 +33,13 @@ public class ProductController {
 		this.productService = productService;
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
+	@GetMapping
 	public Iterable<Product> findAll() {
 		return productRepository.findAll();
 	}
 
-	@RequestMapping(value = "/search/{searchText}", method = RequestMethod.GET)
+	@Cacheable(value = "product-list-search", key = "#searchText")//Not working, more study required
+	@GetMapping("/search/{searchText}")
 	public List<Product> search(@PathVariable String searchText) {
 		try {
 			return productService.findProductsByNameOrDescription(searchText);
@@ -47,7 +49,8 @@ public class ProductController {
 		}
 	}
 
-	@RequestMapping(value = "/{productId}", method = RequestMethod.GET)
+	@Cacheable(value = "product", key = "#productId")//Not working, more study required
+	@GetMapping("/{productId}")
 	public Optional<Product> findById(@PathVariable Long productId) {
 		return productRepository.findById(productId);
 	}

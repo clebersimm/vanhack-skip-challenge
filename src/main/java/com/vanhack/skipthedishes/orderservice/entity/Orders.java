@@ -12,8 +12,13 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
-import com.vanhack.skipthedishes.orderservice.util.OrderStatus;
+import org.springframework.data.annotation.LastModifiedDate;
 
+/**
+ * 
+ * @author clebersimm
+ *
+ */
 @Entity
 public class Orders implements Serializable {
 
@@ -33,10 +38,11 @@ public class Orders implements Serializable {
 	private Long storeId;
 	private Double total;
 	@NotNull
-	private OrderStatus status;
+	private String status;
+	@LastModifiedDate
 	private Timestamp lastUpdate;
-	
-	@OneToMany(fetch=FetchType.LAZY,mappedBy="orders")
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "orders")
 	private List<OrderItem> orderItems;
 
 	public Long getId() {
@@ -87,11 +93,11 @@ public class Orders implements Serializable {
 		this.total = total;
 	}
 
-	public OrderStatus getStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(OrderStatus status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 

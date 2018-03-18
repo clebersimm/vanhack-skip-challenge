@@ -6,4 +6,6 @@ import com.vanhack.skipthedishes.orderservice.entity.Orders;
 
 public interface OrdersRepository extends CrudRepository<Orders, Long> {
 
+	public String findStatusById(Long id);
+	
 }

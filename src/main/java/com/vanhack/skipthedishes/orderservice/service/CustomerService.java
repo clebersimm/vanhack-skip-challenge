@@ -28,15 +28,15 @@ public class CustomerService {
 
 	public String save(Customer customer) {
 		// TODO must check how change db
-		Boolean hasKey = stringRedisTemplate.hasKey(customer.getEmail());
-		if (hasKey) {
-			throw new BadRequestException("There is already an account with this email!");
-		}
+//		Boolean hasKey = stringRedisTemplate.hasKey(customer.getEmail());
+//		if (hasKey) {
+//			throw new BadRequestException("There is already an account with this email!");
+//		}
 
 		// customer.setCreation(new Timestamp(System.currentTimeMillis()));
 		//customer.setPassword(bCryptPasswordEncoder.encode(customer.getPassword()));
 		customerRepository.save(customer);
-		stringRedisTemplate.opsForSet().add(customer.getEmail(), customer.getName());
+//		stringRedisTemplate.opsForSet().add(customer.getEmail(), customer.getName());
 		return generateToken(customer.getEmail(), customer.getPassword());
 	}
 

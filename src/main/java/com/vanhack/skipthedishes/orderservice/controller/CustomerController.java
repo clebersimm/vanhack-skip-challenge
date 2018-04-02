@@ -1,6 +1,9 @@
 package com.vanhack.skipthedishes.orderservice.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,14 +23,9 @@ public class CustomerController {
 		this.customerService = customerService;
 	}
 
-	@PostMapping
-	public String create(@RequestBody Customer customer) {
-		String response = null;
-		try {
-			response = customerService.save(customer);
-		} catch (Exception e) {
-			throw new RuntimeException(e.getMessage());
-		}
+	@PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE)
+	public String create(@Valid @RequestBody Customer customer) {
+		String response = customerService.save(customer);
 		return response;
 	}
 
